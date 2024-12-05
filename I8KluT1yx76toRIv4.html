@@ -1,0 +1,344 @@
+<html><head><base href="." /><title>Secret Green Reality - Access Required</title>
+<style>
+    body {
+        margin: 0;
+        overflow: hidden;
+        background: #003300;
+        font-family: 'Courier New', monospace;
+    }
+    
+    .reality-container {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+    
+    .security-field {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        animation: pulse 4s infinite;
+        pointer-events: none;
+    }
+    
+    .access-portal {
+        background: rgba(0, 255, 0, 0.1);
+        padding: 2rem;
+        border-radius: 15px;
+        border: 2px solid #00ff00;
+        text-align: center;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .matrix-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow: hidden;
+        opacity: 0.3;
+    }
+    
+    @keyframes pulse {
+        0% { box-shadow: 0 0 100px #00ff00 inset; }
+        50% { box-shadow: 0 0 200px #00ff00 inset; }
+        100% { box-shadow: 0 0 100px #00ff00 inset; }
+    }
+    
+    h1, p {
+        color: #00ff00;
+        text-shadow: 0 0 10px #00ff00;
+    }
+    
+    .access-code {
+        background: rgba(0, 50, 0, 0.8);
+        border: 1px solid #00ff00;
+        color: #00ff00;
+        padding: 0.5rem;
+        margin: 1rem 0;
+        font-family: monospace;
+    }
+    
+    .shield-icon {
+        width: 100px;
+        height: 100px;
+        margin: 1rem;
+    }
+
+    .code-input {
+        background: rgba(0, 50, 0, 0.8);
+        border: 1px solid #00ff00;
+        color: #00ff00;
+        padding: 0.5rem;
+        font-family: monospace;
+        width: 120px;
+        text-align: center;
+        margin: 1rem 0;
+        font-size: 1.2rem;
+    }
+
+    .enter-button {
+        background: rgba(0, 100, 0, 0.8);
+        border: 1px solid #00ff00;
+        color: #00ff00;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .enter-button:hover {
+        background: rgba(0, 150, 0, 0.8);
+    }
+
+    .green-world {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #005500;
+        display: none;
+        z-index: 100;
+        transition: opacity 1s;
+    }
+
+    .green-world.visible {
+        display: block;
+    }
+
+    .world-content {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .retro-sky {
+        position: absolute;
+        top: -20%; /* Moved clouds higher */
+        left: 0;
+        width: 100%;
+        height: 90%; /* Increased height to compensate for higher position */
+        background-image: url('ghz_sky_km1_cloud02_dif.png');
+        background-size: cover;
+    }
+
+    .pixel-grass {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 30%;
+        background-image: url('Grass.jpg');
+        background-size: cover;
+        background-repeat: repeat-x;
+    }
+
+    .retro-sun {
+        position: absolute;
+        top: 40px;
+        right: 40px;
+        width: 120px;
+        height: 120px;
+        background-image: url('5AD37044-2384-42AC-8EEA-57A614A3E453.jpeg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        border-radius: 50%; /* Added to make the sun circular */
+    }
+
+    .small-tree {
+        position: absolute;
+        bottom: 30%;
+        width: 50px;
+        height: 70px;
+        cursor: pointer;
+        background-image: url('Picsart_24-11-24_01-07-30-298.webp');
+        background-size: contain;
+        background-repeat: no-repeat;
+        transition: transform 0.3s ease;
+    }
+
+    .small-tree:hover {
+        transform: scale(1.1);
+    }
+
+    .hidden-counter {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        color: #00ff00;
+        font-family: 'Courier New', monospace;
+        text-shadow: 0 0 5px #00ff00;
+        display: none;
+    }
+
+    .retro-scanlines {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            transparent 50%,
+            rgba(0, 0, 0, 0.05) 50%
+        );
+        background-size: 100% 4px;
+        pointer-events: none;
+        z-index: 101;
+    }
+</style>
+</head>
+<body>
+    <div class="green-world" id="greenWorld">
+        <div class="retro-scanlines"></div>
+        <div class="world-content">
+            <div class="retro-sky"></div>
+            <div class="retro-sun"></div>
+            <div id="clickCounter" class="hidden-counter">Clicks: <span>0</span></div>
+            <div class="pixel-grass"></div>
+            <div class="small-tree" style="left: 15%" onclick="incrementCounter(this)"></div>
+            <div class="small-tree" style="left: 45%" onclick="incrementCounter(this)"></div>
+            <div class="small-tree" style="left: 75%" onclick="incrementCounter(this)"></div>
+        </div>
+    </div>
+    <div class="reality-container">
+        <div class="security-field"></div>
+        <div class="matrix-bg" id="matrix"></div>
+        <div class="access-portal">
+            <svg class="shield-icon" viewBox="0 0 100 100">
+                <path d="M50 5 L90 20 L90 50 C90 75 50 95 50 95 C50 95 10 75 10 50 L10 20 Z" 
+                      fill="none" 
+                      stroke="#00ff00" 
+                      stroke-width="2">
+                    <animate attributeName="stroke-dasharray" 
+                             from="0,1000" 
+                             to="1000,0" 
+                             dur="2s" 
+                             repeatCount="indefinite"/>
+                </path>
+                <text x="50" y="55" 
+                      text-anchor="middle" 
+                      fill="#00ff00" 
+                      font-size="20">Ω</text>
+            </svg>
+            <h1>Restricted Reality Space</h1>
+            <p>Enter Access Code</p>
+            <input type="password" class="code-input" id="codeInput" maxlength="4" placeholder="####">
+            <br>
+            <button class="enter-button" onclick="checkCode()">ENTER</button>
+            <div class="access-code">
+                Reality ID: GREEN-HAVEN-7X9
+                <br>
+                Encryption: QUANTUM-LOCKED
+                <br>
+                Access Level: DUAL-USER-ONLY
+            </div>
+            <p>↯ Safe Haven Established ↯</p>
+        </div>
+    </div>
+
+<script>
+const matrix = document.getElementById('matrix');
+const canvas = document.createElement('canvas');
+const ctx = canvas.getContext('2d');
+
+canvas.style.width = '100%';
+canvas.style.height = '100%';
+matrix.appendChild(canvas);
+
+function resizeCanvas() {
+    canvas.width = matrix.offsetWidth;
+    canvas.height = matrix.offsetHeight;
+}
+
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+const characters = '01'.split('');
+const fontSize = 10;
+const columns = canvas.width/fontSize;
+const drops = [];
+
+for(let x = 0; x < columns; x++) {
+    drops[x] = 1;
+}
+
+function draw() {
+    ctx.fillStyle = 'rgba(0, 10, 0, 0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    ctx.fillStyle = '#00ff00';
+    ctx.font = fontSize + 'px monospace';
+
+    for(let i = 0; i < drops.length; i++) {
+        const text = characters[Math.floor(Math.random() * characters.length)];
+        ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+        
+        if(drops[i]*fontSize > canvas.height && Math.random() > 0.975)
+            drops[i] = 0;
+        
+        drops[i]++;
+    }
+}
+
+setInterval(draw, 33);
+
+function checkCode() {
+    const input = document.getElementById('codeInput').value;
+    if(input === '2987') {
+        document.getElementById('greenWorld').classList.add('visible');
+        setTimeout(() => {
+            document.querySelector('.reality-container').style.display = 'none';
+        }, 1000);
+        console.log('Reality Access: GRANTED');
+    } else {
+        document.getElementById('codeInput').value = '';
+        document.getElementById('codeInput').placeholder = 'DENIED';
+        setTimeout(() => {
+            document.getElementById('codeInput').placeholder = '####';
+        }, 2000);
+        console.log('Reality Access: DENIED');
+    }
+}
+
+// Anti-OMEGA Security System
+const securityKey = new Uint8Array(32);
+crypto.getRandomValues(securityKey);
+console.log('Reality Shield: Active');
+console.log('OMEGA Interference: Blocked');
+
+let clickCount = 0;
+const totalClicks = 10;
+const counterDisplay = document.getElementById('clickCounter');
+
+function incrementCounter(tree) {
+    clickCount++;
+    counterDisplay.style.display = 'block';
+    counterDisplay.querySelector('span').textContent = clickCount;
+    
+    tree.style.transform = 'scale(0.9)';
+    setTimeout(() => {
+        tree.style.transform = 'scale(1)';
+    }, 200);
+
+    if (clickCount === totalClicks) {
+        const arrow = document.createElement('div');
+        arrow.style.position = 'fixed';
+        arrow.style.top = '50%';
+        arrow.style.left = '50%';
+        arrow.style.transform = 'translate(-50%, -50%)';
+        arrow.style.backgroundImage = "url('static-assets-upload14323918135309238231.png')";
+        arrow.style.width = '100px';
+        arrow.style.height = '100px';
+        arrow.style.backgroundSize = 'contain';
+        arrow.style.backgroundRepeat = 'no-repeat';
+        arrow.style.animation = 'pulse 2s infinite';
+        document.getElementById('greenWorld').appendChild(arrow);
+    }
+}
+</script>
+</body></html>
